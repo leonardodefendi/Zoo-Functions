@@ -28,4 +28,5 @@ const getEmployeesCoverage = (...employee) => {
   }
   throw new Error('Informações inválidas');
 };
+console.log(getEmployeesCoverage());
 module.exports = getEmployeesCoverage;
