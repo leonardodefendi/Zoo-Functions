@@ -5,29 +5,19 @@ const generateAnimalsRegion = () => data.species.reduce((obj, specie) => {
   return obj;
 }, ({ NE: [], NW: [], SE: [], SW: [] }));
 
-const animalsNameRegion = (options) => {
-  const regions = { NE: [], NW: [], SE: [], SW: [] };
-  data.species.forEach((specie) => {
-    regions[specie.location]
-      .push({ [specie.name]: options.sorted ? specie.residents
-        .map((animal) => animal.name).sort() : specie.residents
-        .map((animal) => animal.name) });
-  });
-  return regions;
-};
+const animalsNameRegion = (options) => data.species.reduce((acc, { location, name, residents }) => {
+  acc[location].push({ [name]: (options.sorted ? residents
+    .map((resident) => resident.name).sort() : residents
+    .map((resident) => resident.name)) });
+  return acc;
+}, { NE: [], NW: [], SE: [], SW: [] });
 
-const animalSex = (options) => {
-  const regions = { NE: [], NW: [], SE: [], SW: [] };
-  data.species.forEach((specie) => {
-    regions[specie.location]
-      .push({ [specie.name]: (options.sex && options.sorted) ? specie.residents
-        .filter((animal) => animal.sex === options.sex)
-        .map((animal) => animal.name).sort() : specie.residents
-        .filter((animal) => animal.sex === options.sex)
-        .map((animal) => animal.name) });
-  });
-  return regions;
-};
+const animalSex = (options) => data.species.reduce((acc, { name, location, residents }) => {
+  acc[location].push({ [name]: (options.sorted ? residents
+    .filter(({ sex }) => sex === options.sex).map((animal) => animal.name).sort() : residents
+    .filter(({ sex }) => sex === options.sex).map((animal) => animal.name)) });
+  return acc;
+}, { NE: [], NW: [], SE: [], SW: [] });
 
 const getAnimalMap = (options) => {
   if (!options || !options.includeNames) {
