@@ -28,6 +28,5 @@ const getSchedule = (scheduleTarget) => {
   }
   return generate;
 };
-console.log(genereteObj());
-// console.log(genereteObj());
+
 module.exports = getSchedule;
